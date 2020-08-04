@@ -14,10 +14,10 @@ def extract():
             print('Attempting download for ' + str(year) + 'q' + str(q))
             retries = 0
             filename = str(year) + 'q' + str(q) + '.zip'
-            dest_path = os.path.join(DEST_DIR, str(year), ('q' + str(q)))
+            dest_path = os.path.join(DEST_DIR, str(year), ('q' + str(q)), filename)
             src_url = os.path.join(SRC_URL, filename)
             res = requests.get(src_url)
-            
+
             while not res.ok:
                 if retries < MAX_RETRIES:
                     print('Attempt failed for ' + filename + '. Retrying.')
@@ -29,7 +29,9 @@ def extract():
 
 
             print('Successfully downloaded ' + filename)
-            print('Extracting contents to ' + dest_path)
-            zip = zipfile.ZipFile(io.BytesIO(res.content))
-            zip.extractall(dest_path)
+            print('Writing contents to ' + dest_path)
+
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+            with open(dest_path, 'wb') as f:
+                f.write(res.content)
 
