@@ -4,7 +4,7 @@ from tasks.extract import extract
 from tasks.transform import transform
 
 def main():
-    # extract()
+    extract()
     transform()
 
 if __name__ == '__main__':
