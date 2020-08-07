@@ -1,21 +1,45 @@
 import attr
-from src.models.validators import FIELD_FORMATS, convert_to_bool
+import models.validators as v
+
+TAG_FIELDS = (
+    'tag',
+    'version',
+    'custom',
+    'abstract',
+    'datatype',
+    'iord',
+    'crdr',
+    'tlabel',
+    'doc'
+)
 
 @attr.s
 class Tag(object):
-    tag = attr.ib(validator=attr.validators.matches_re(FIELD_FORMATS['tag']))
-    version = attr.ib(validator=attr.validators.matches_re(FIELD_FORMATS['version']))
+    tag = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['tag']))
+    version = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['version']))
     custom = attr.ib(
-        validator=attr.validators.instance_of(bool),
-        converter=convert_to_bool
+        converter=v.convert_to_bool,
+        validator=attr.validators.instance_of(bool)
     )
     abstract = attr.ib(
-        validator=attr.validators.instance_of(bool),
-        converter=convert_to_bool
+        converter=v.convert_to_bool,
+        validator=attr.validators.instance_of(bool)
     )
-    datatype = attr.ib(validator=attr.validators.optional(attr.validators.instance_of(str)))
-    iord = attr.ib(validator=attr.validators.matches_re('iord'))
-    crdr = attr.ib(validator=attr.validators.optional(attr.validators.instance_of(str)))
-    tlabel = attr.ib(validator=attr.validators.optional(attr.validators.instance_of(str)))
-    doc = attr.ib(validator=attr.validators.optional(attr.validators.instance_of(str)))
+    datatype = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    iord = attr.ib(validator=attr.validators.instance_of(str))
+    crdr = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    tlabel = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    doc = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
 

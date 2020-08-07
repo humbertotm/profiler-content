@@ -1,5 +1,18 @@
 import attr
 
+PRESENTATION_FIELDS = (
+    'adsh',
+    'report',
+    'line',
+    'stmt',
+    'inpth',
+    'rfile',
+    'tag',
+    'version',
+    'plabel',
+    'negating'
+)
+
 @attr.s
 class Presentation(object):
     adsh = attr.ib(validator=[])
