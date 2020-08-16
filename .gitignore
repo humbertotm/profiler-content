@@ -6,4 +6,5 @@ pyvenv.cfg
 share/
 tmp/
 lib64
+config.yml
 

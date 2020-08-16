@@ -1,0 +1,6 @@
+db:
+  host_url: localhost:54321
+  db_user: someuser
+  db_password: somepassword
+  db_name: screener_dev
+
