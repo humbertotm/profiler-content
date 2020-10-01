@@ -1,6 +1,7 @@
 import os, yaml, logging
 from utils.logger import LOG_FORMAT
 
+# TODO: fix data path
 DATA_DIR = '/tmp/screener-content/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
 TABLE_MAPPINGS = {

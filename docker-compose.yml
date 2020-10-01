@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  etl:
+    container_name: python-etl
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - screener
+    depends_on:
+      - etl-postgres-db
+    
+  etl-postgres-db:
+    container_name: screener-etl-pgdb
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    networks:
+      - screener
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - type: volume
+        source: screener_postgres-data
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: true
+
+networks:
+  screener:
+
+# Assumes the existence of this volume created when bringing up the postgres container
+# for the clojure screener repo
+volumes:
+  screener_postgres-data:
+    external: true

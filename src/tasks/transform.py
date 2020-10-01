@@ -4,6 +4,7 @@ from models.tag import Tag, TAG_FIELDS
 from models.number import Number, NUMBER_FIELDS
 from utils.logger import LOG_FORMAT
 
+# TODO: fix data paths
 DATA_DIR = '/tmp/screener-content/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
 INSTANTIATORS = {
