@@ -1,7 +1,7 @@
 import os, logging
 from utils.logger import LOG_FORMAT
 
-DATA_DIR = '/tmp/screener-content/tmp'
+DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
 TABLE_MAPPINGS = {
     'sub': 'submissions_tmp',
@@ -11,6 +11,8 @@ TABLE_MAPPINGS = {
 
 logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
+# TODO: fix bug where data is not cleaned if etl is aborted due to being unable to pull data
+# from SEC's servers
 def clean(year):
     # clean data directory
     data_dir = os.path.join(DATA_DIR, str(year))
