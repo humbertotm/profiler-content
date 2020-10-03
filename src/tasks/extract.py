@@ -1,8 +1,7 @@
 import requests, zipfile, os, io, sys, logging
 from utils.logger import LOG_FORMAT
 
-# TODO: fix this data storage paths to work within the container
-DEST_DIR = '/tmp/screener-content/tmp'
+DEST_DIR = os.environ['APP_PATH'] + '/tmp'
 SRC_URL = 'https://www.sec.gov/files/dera/data/financial-statement-data-sets'
 SRC_URL_2020Q1 = 'https://www.sec.gov/files/node/add/data_distribution'
 MAX_RETRIES = 5

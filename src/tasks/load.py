@@ -1,8 +1,7 @@
 import os, yaml, logging
 from utils.logger import LOG_FORMAT
 
-# TODO: fix data path
-DATA_DIR = '/tmp/screener-content/tmp'
+DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
 TABLE_MAPPINGS = {
     'tmp': {
@@ -48,8 +47,10 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 # This task will load the previously created data csv into tmp tables.
 # Afterwards, data will be copied from tmp tables into final ones.
+# TODO: replace db querying commands by proper usage of psycopg2
 def load_tmp_data(year, q):
-    config_file = open('/tmp/screener-content/config/config.yml', 'r')
+    config_path = os.environ['APP_PATH'] + '/config/config.yml'
+    config_file = open(config_path, 'r')
     config_data = yaml.load(config_file)
     target_db = config_data['db']['db_name']
  
@@ -70,6 +71,7 @@ def load_tmp_data(year, q):
             os.system(load_tmp_cmd)
 
 
+# TODO: replace db querying commands by proper usage of psycopg2
 def load():
     # Order is important since numbers table has a dependecny on submissions and tags.
     for data_type in DATA_OF_INTEREST:

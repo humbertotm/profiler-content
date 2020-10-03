@@ -3,11 +3,19 @@ version: "3.8"
 services:
   etl:
     container_name: python-etl
+    stdin_open: true
+    tty: true
+    environment:
+      APP_PATH: /usr/src/app
     build:
       context: .
       dockerfile: Dockerfile
     networks:
       - screener
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/app
     depends_on:
       - etl-postgres-db
     
@@ -23,16 +31,21 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - type: volume
-        source: screener_postgres-data
+        source: screener-postgres-data
         target: /var/lib/postgresql/data
         volume:
           nocopy: true
+      - type: bind
+        source: /Users/htellechea/p_projects/screener-db-init/postgres/create_tables.sql
+        target: /usr/local/etc/create_tables.sql
+      - type: bind
+        source: /Users/htellechea/p_projects/screener-db-init/postgres/docker-initdb
+        target: /docker-entrypoint-initdb.d
 
 networks:
   screener:
 
-# Assumes the existence of this volume created when bringing up the postgres container
-# for the clojure screener repo
+# Assumes this volume has been previously created
 volumes:
-  screener_postgres-data:
+  screener-postgres-data:
     external: true

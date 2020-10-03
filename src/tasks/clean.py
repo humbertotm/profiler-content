@@ -1,8 +1,7 @@
 import os, logging
 from utils.logger import LOG_FORMAT
 
-# TODO: fix data paths
-DATA_DIR = '/tmp/screener-content/tmp'
+DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
 TABLE_MAPPINGS = {
     'sub': 'submissions_tmp',
