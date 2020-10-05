@@ -43,19 +43,25 @@ SUBMISSION_FIELDS = (
 
 @attr.s
 class Submission(object):
-    adsh = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['adsh']))
-    cik = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['cik']))
-    name = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['name']))
+    adsh = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    cik = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    name = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
     sic = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
-    countryba = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['countryba']))
+    countryba = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
     stprba = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
-    cityba = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['cityba']))
+    cityba = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
     zipba = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
@@ -96,7 +102,10 @@ class Submission(object):
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
-    countryinc = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['countryinc']))
+    countryinc = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
     stprinc = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
@@ -121,14 +130,14 @@ class Submission(object):
         converter=v.convert_to_bool,
         validator=attr.validators.instance_of(bool)
     )
-    fye = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['fye']))
-    form = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['form']))
+    fye = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    form = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
     period = attr.ib(
         converter=v.convert_to_date,
         validator=attr.validators.instance_of(datetime)
     )
-    fy = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['fy']))
-    fp = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['fp']))
+    fy = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    fp = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
     filed = attr.ib(
         converter=v.convert_to_date,
         validator=attr.validators.instance_of(datetime)
@@ -145,8 +154,8 @@ class Submission(object):
         converter=v.convert_to_bool,
         validator=attr.validators.instance_of(bool)
     )
-    instance = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['instance']))
-    nciks = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['nciks']))
+    instance = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    nciks = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
     aciks = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
