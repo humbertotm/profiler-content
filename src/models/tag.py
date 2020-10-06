@@ -19,17 +19,20 @@ class Tag(object):
     version = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
     custom = attr.ib(
         converter=v.convert_to_bool,
-        validator=attr.validators.instance_of(bool)
+        validator=attr.validators.optional(attr.validators.instance_of(bool))
     )
     abstract = attr.ib(
         converter=v.convert_to_bool,
-        validator=attr.validators.instance_of(bool)
+        validator=attr.validators.optional(attr.validators.instance_of(bool))
     )
     datatype = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
-    iord = attr.ib(validator=attr.validators.matches_re(v.FIELD_FORMATS['non_empty_str']))
+    iord = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
     crdr = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
