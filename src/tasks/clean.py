@@ -1,4 +1,4 @@
-import os, logging, psycopg2
+import os, logging
 from utils.logger import LOG_FORMAT
 from db.db_connector import DBConnector
 
@@ -14,13 +14,13 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 # TODO: fix bug where data is not cleaned if etl is aborted due to being unable to pull data
 # from SEC's servers
-# TODO: Reimplement database cleanup with psycopg2
 def clean(year):
     # clean data directory
     data_dir = os.path.join(DATA_DIR, str(year))
     rm_data_dir_cmd = 'rm -r %s' % data_dir
     db_conn = DBConnector()
     cur = db_conn.cursor()
+
     logging.debug('Cleaning data dir cmd: %s', rm_data_dir_cmd)
     logging.info('Cleaning data dir %s', data_dir)
     os.system(rm_data_dir_cmd)
@@ -30,10 +30,10 @@ def clean(year):
         target_table = TABLE_MAPPINGS[data_type]
         truncate_query = 'TRUNCATE TABLE %s' % target_table
         truncate_cmd = 'sudo -u postgres psql screener_dev -c "%s"' % truncate_query
-        # logging.debug('Executing truncate cmd: %s', truncate_cmd)
+
         logging.info('Truncating table %s', target_table)
         cur.execute(truncate_query)
         db_conn.commit()
 
     cur.close()
-        
+

@@ -1,4 +1,4 @@
-import os, yaml, logging, psycopg2
+import os, yaml, logging
 from utils.logger import LOG_FORMAT
 from db.db_connector import DBConnector
 
@@ -46,16 +46,6 @@ COPY_QUERIES = {
 logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 def load():
-    # config_path = os.environ['APP_PATH'] + '/config/config.yml'
-    # config_file = open(config_path, 'r')
-    # config_data = yaml.load(config_file)
-    # db_host = config_data['db']['host']
-    # db_port = config_data['db']['port']
-    # target_db = config_data['db']['db_name']
-    # db_username = config_data['db']['username']
-    # db_user_pwd = config_data['db']['password']
-    
-    # db_conn = psycopg2.connect(host=db_host, port=db_port, dbname=target_db, user=db_username, password=db_user_pwd)
     db_conn = DBConnector()
 
     # Order is important since numbers table has a dependecny on submissions and tags.
@@ -73,19 +63,9 @@ def load():
 # This task will load the previously created data csv into tmp tables.
 # Afterwards, data will be copied from tmp tables into final ones.
 def load_tmp_data(year, q):
-    # config_path = os.environ['APP_PATH'] + '/config/config.yml'
-    # config_file = open(config_path, 'r')
-    # config_data = yaml.load(config_file)
-    # db_host = config_data['db']['host']
-    # db_port = config_data['db']['port']
-    # target_db = config_data['db']['db_name']
-    # db_username = config_data['db']['username']
-    # db_user_pwd = config_data['db']['password']
     src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
-
-    
     db_conn = DBConnector()
-    
+
     for filename in os.listdir(src_path):
         data_type, file_type = filename.split('.')
 

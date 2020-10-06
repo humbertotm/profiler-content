@@ -6,7 +6,6 @@ from tasks.load import load_tmp_data, load
 from tasks.clean import clean
 from db.db_connector import DBConnector
 
-# TODO: extract db connection handling logic to avoid recreating db connections
 def main():
     start_year = int(os.environ['START_YEAR'])
     end_year = int(os.environ['END_YEAR'])
