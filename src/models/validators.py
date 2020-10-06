@@ -1,6 +1,7 @@
 from datetime import datetime
 
 FIELD_FORMATS = {
+    'non_empty_str': '.+',
     'adsh': '^[aA-zZ0-9]{10}-[aA-zZ0-9]{2}-[aA-zZ0-9]{6}$', # nnnnnnnnn-nn-nnnnnn
     'cik': '\d{1,10}',
     'name': '.{1,150}',
@@ -39,7 +40,6 @@ TIME_FORMATS = {
 
 # When we get empty strings, prefer to treat them as null values instead of storing empty
 # strings.
-
 def string_or_none(value):
     if not value:
         return None

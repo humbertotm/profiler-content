@@ -35,12 +35,8 @@ services:
         target: /var/lib/postgresql/data
         volume:
           nocopy: true
-      - type: bind
-        source: /Users/htellechea/p_projects/screener-db-init/postgres/create_tables.sql
-        target: /usr/local/etc/create_tables.sql
-      - type: bind
-        source: /Users/htellechea/p_projects/screener-db-init/postgres/docker-initdb
-        target: /docker-entrypoint-initdb.d
+      - /Users/htellechea/p_projects/screener-db-init/postgres/create_tables.sql:/usr/local/etc/create_tables.sql
+      - /Users/htellechea/p_projects/screener-db-init/postgres/docker-initdb:/docker-entrypoint-initdb.d
 
 networks:
   screener:
