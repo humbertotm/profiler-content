@@ -28,6 +28,7 @@ def extract(year, q):
             res = requests.get(src_url)
         else:
             logging.critical('MAX_RETRIES reached while attempting to fetch %s', src_url)
+            # TODO: return instead of aborting the program execution
             sys.exit()
 
 

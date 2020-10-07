@@ -27,6 +27,8 @@ def transform(year, q):
     src_zip_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)), zipfile_name)
     dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
 
+    # TODO: add a check to see if zipfile exists beforehand. Return otherwise.
+    
     logging.info('Extracting %s', src_zip_path)
     with zipfile.ZipFile(src_zip_path, 'r') as zf:
         zf.extractall(dest_path)

@@ -64,6 +64,8 @@ def load():
 # Afterwards, data will be copied from tmp tables into final ones.
 def load_tmp_data(year, q):
     src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
+
+    # TODO: return if file does not exist
     db_conn = DBConnector()
 
     for filename in os.listdir(src_path):

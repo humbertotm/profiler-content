@@ -22,6 +22,8 @@ def clean(year, q):
     db_conn = DBConnector()
     cur = db_conn.cursor()
 
+    # TODO: exit program execution if dir does not exist. It means no more data is available
+
     logging.debug('Cleaning data dir cmd: %s', rm_data_dir_cmd)
     logging.info('Cleaning data dir %s', data_dir)
     os.system(rm_data_dir_cmd)
