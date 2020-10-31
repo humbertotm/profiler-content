@@ -20,7 +20,7 @@ services:
       - etl-postgres-db
     
   etl-postgres-db:
-    container_name: screener-etl-pgdb
+    container_name: profiler-etl-pgdb
     image: postgres:latest
     ports:
       - "5432:5432"
