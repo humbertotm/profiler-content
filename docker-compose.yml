@@ -35,9 +35,9 @@ services:
         target: /var/lib/postgresql/data
         volume:
           nocopy: true
-      - /Users/htellechea/p_projects/screener-db-init/postgres/create_tables.sql:/usr/local/etc/create_tables.sql
-      - /Users/htellechea/p_projects/screener-db-init/postgres/cik_ticker_mappings.txt:/usr/local/etc/cik_ticker_mappings.txt
-      - /Users/htellechea/p_projects/screener-db-init/postgres/docker-initdb:/docker-entrypoint-initdb.d
+      - ./db_init/postgres/create_tables.sql:/usr/local/etc/create_tables.sql
+      - ./db_init/postgres/cik_ticker_mappings.txt:/usr/local/etc/cik_ticker_mappings.txt
+      - ./db_init/postgres/docker-initdb:/docker-entrypoint-initdb.d
 
 networks:
   screener:
