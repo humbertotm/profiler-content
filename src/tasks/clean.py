@@ -14,12 +14,15 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 # TODO: fix bug where data is not cleaned if etl is aborted due to being unable to pull data
 # from SEC's servers
-def clean(year):
+def clean(year, q):
     # clean data directory
-    data_dir = os.path.join(DATA_DIR, str(year))
+    qtr_dir_path = 'q' + str(q)
+    data_dir = os.path.join(DATA_DIR, str(year), qtr_dir_path)
     rm_data_dir_cmd = 'rm -r %s' % data_dir
     db_conn = DBConnector()
     cur = db_conn.cursor()
+
+    # TODO: exit program execution if dir does not exist. It means no more data is available
 
     logging.debug('Cleaning data dir cmd: %s', rm_data_dir_cmd)
     logging.info('Cleaning data dir %s', data_dir)

@@ -20,7 +20,7 @@ services:
       - etl-postgres-db
     
   etl-postgres-db:
-    container_name: screener-etl-pgdb
+    container_name: profiler-etl-pgdb
     image: postgres:latest
     ports:
       - "5432:5432"
@@ -36,6 +36,7 @@ services:
         volume:
           nocopy: true
       - /Users/htellechea/p_projects/screener-db-init/postgres/create_tables.sql:/usr/local/etc/create_tables.sql
+      - /Users/htellechea/p_projects/screener-db-init/postgres/cik_ticker_mappings.txt:/usr/local/etc/cik_ticker_mappings.txt
       - /Users/htellechea/p_projects/screener-db-init/postgres/docker-initdb:/docker-entrypoint-initdb.d
 
 networks:

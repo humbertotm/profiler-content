@@ -19,9 +19,8 @@ def main():
             extract(year, q)
             transform(year, q)
             load_tmp_data(year, q)
-
-        load()
-        clean(year)
+            load()
+            clean(year, q)
 
     # Terminate db connection
     DBConnector.disconnect()
