@@ -52,7 +52,7 @@ def load():
     for data_type in DATA_OF_INTEREST:
         tmp_table = TABLE_MAPPINGS['tmp'][data_type]
         final_table = TABLE_MAPPINGS['final'][data_type]
-        logging.info('Copying from temp table %s to final table %s', tmp_table, final_table)
+        logging.info(f"Copying from temp table {tmp_table} to final table {final_table}")
         copy_from_tmp_query = COPY_QUERIES[data_type]
 
         cur = db_conn.cursor()
@@ -62,8 +62,8 @@ def load():
 
 # This task will load the previously created data csv into tmp tables.
 # Afterwards, data will be copied from tmp tables into final ones.
-def load_tmp_data(year, q):
-    src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
+def load_tmp_data(year, period):
+    src_path = os.path.join(DATA_DIR, str(year), f"p{period}")
 
     # TODO: return if file does not exist
     db_conn = DBConnector()
@@ -71,17 +71,16 @@ def load_tmp_data(year, q):
     for filename in os.listdir(src_path):
         data_type, file_type = filename.split('.')
 
-        if data_type in DATA_OF_INTEREST and file_type == 'tsv':
+        if data_type in DATA_OF_INTEREST and file_type == 'csv':
             tmp_table = TABLE_MAPPINGS['tmp'][data_type]
-            qrtr = 'q%s' % q
-            src_tsv_file_path = os.path.join(DATA_DIR, str(year), qrtr, filename)
-            load_from_tsv_query = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER" % tmp_table
+            src_csv_file_path = os.path.join(DATA_DIR, str(year), f"p{period}", filename)
+            load_from_csv_query = f"COPY {tmp_table} FROM STDIN DELIMITER ',' CSV HEADER"
 
-            logging.debug('Load cmd: %s', load_from_tsv_query)
+            logging.debug(f"Load cmd: {load_from_csv_query}")
 
             cur = db_conn.cursor()
-            with open(src_tsv_file_path, 'r') as f:
-                cur.copy_expert(sql=load_from_tsv_query, file=f)
+            with open(src_csv_file_path, 'r') as f:
+                cur.copy_expert(sql=load_from_csv_query, file=f)
                 db_conn.commit()
                 cur.close()
 

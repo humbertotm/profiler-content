@@ -72,9 +72,9 @@ def main():
         year, period, periodicity = period
         extract(year, period, periodicity)
         # transform(year, period, periodicity)
-        # load_tmp_data(year, q)
+        # load_tmp_data(year, period)
         # load()
-        # clean(year, q)
+        # clean(year, period)
 
     # Terminate db connection
     DBConnector.disconnect()

@@ -1,4 +1,4 @@
-import os, io, zipfile, attr, tsv, logging
+import os, io, zipfile, attr, csv, logging
 from models.submission import Submission, SUBMISSION_FIELDS
 from models.tag import Tag, TAG_FIELDS
 from models.number import Number, NUMBER_FIELDS
@@ -30,7 +30,7 @@ def transform(year, period, periodicity):
 
     src_zip_path = os.path.join(DATA_DIR, str(year), f"p{period}", zipfile_name)
     # dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
-    dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
+    dest_path = os.path.join(DATA_DIR, str(year), f"p{period}")
 
     # TODO: add a check to see if zipfile exists beforehand. Return otherwise.
     
@@ -38,7 +38,8 @@ def transform(year, period, periodicity):
     with zipfile.ZipFile(src_zip_path, 'r') as zf:
         zf.extractall(dest_path)
 
-    src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
+    # src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
+    src_path = os.path.join(DATA_DIR, str(year), f"p{period}")
     
     for filename in os.listdir(src_path):
         faulty_lines_count = 0
@@ -46,18 +47,19 @@ def transform(year, period, periodicity):
         data_type = filename.split('.')[0]
 
         if data_type in DATA_OF_INTEREST:
-            output_tsv_path = os.path.join(src_path, (data_type + '.tsv'))
+            # output_tsv_path = os.path.join(src_path, (data_type + '.tsv'))
+            output_csv_path = os.path.join(src_path, f"{data_type}.csv")
                     
-            with open(output_tsv_path, 'w+') as output_tsv:
+            with open(output_csv_path, 'w+') as output_csv:
                 fieldnames = FIELDS[data_type]
-                writer = tsv.DictWriter(output_tsv, fieldnames=fieldnames)
+                writer = csv.DictWriter(output_csv, fieldnames=fieldnames)
                 src_file = os.path.join(src_path, filename)
 
                 writer.writeheader()
                 
                 logging.info('Validating contents in %s', src_file)
                 with open(os.path.join(src_path, filename), newline='', encoding='iso-8859-1') as src_tsv:
-                    reader = tsv.DictReader(src_tsv, delimiter='\t', quoting=tsv.QUOTE_NONE)
+                    reader = csv.DictReader(src_tsv, delimiter='\t', quoting=csv.QUOTE_NONE)
                     for row in reader:
                         [s.encode('utf-8') for s in row]
                         try:
@@ -70,14 +72,8 @@ def transform(year, period, periodicity):
 
         fault_pct = faulty_line_pct(faulty_lines_count, total_lines_count)
         logging.warning(
-            '%s faulty %s records (%s %%) for %s q%s',
-            str(faulty_lines_count),
-            data_type,
-            str(fault_pct),
-            str(year),
-            str(q)
+            f"{faulty_lines_count} faulty {data_type} records ({fault_pct}%) for {year} period {period}, {periodicity}"
         )
-                                    
                     
 def faulty_line_pct(faulty_lines, total_lines):
     if total_lines == 0:
