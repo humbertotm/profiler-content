@@ -1,4 +1,4 @@
-import os
+import argparse, os
 from utils.logger import LOG_FORMAT
 from tasks.extract import extract
 from tasks.transform import transform
@@ -54,29 +54,30 @@ def generate_periods_sequence(start_year, start_period, end_year, end_period):
     return periods
 
 def main():
-    # TODO: fix this crap to parse CLI arguments instead of reading env
-    # variables. This is some newbie shit.
-    start_year = int(os.environ['START_YEAR'])
-    end_year = int(os.environ['END_YEAR'])
-    start_qtr = int(os.environ['START_QTR'])
-    end_qtr = int(os.environ['END_QTR'])
-    start_month = int(os.environ['START_MONTH'])
-    end_month = int(os.environ['END_MONTH'])
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-sy", "--start_year", type=int, required=True)
+    parser.add_argument("-ey", "--end_year", type=int, required=True)
+    parser.add_argument("-sp", "--start_period", type=int, required=True)
+    parser.add_argument("-ep", "--end_period", type=int, required=True)
+    args = parser.parse_args()
 
-    periods = generate_periods_sequence(start_year, start_period, end_year, end_period)
+    periods = generate_periods_sequence(
+        args.start_year, args.start_period, args.end_year, args.end_period
+    )
 
-    # Initialize db connection
+    Initialize db connection
     DBConnector()
     
     for period in periods:
         year, period, periodicity = period
-        extract(year, period, periodicity)
-        # transform(year, period, periodicity)
-        # load_tmp_data(year, period)
-        # load()
-        # clean(year, period)
 
-    # Terminate db connection
+        extract(year, period, periodicity)
+        transform(year, period, periodicity)
+        load_tmp_data(year, period)
+        load()
+        clean(year, period)
+
+    Terminate db connection
     DBConnector.disconnect()
 
 if __name__ == '__main__':
