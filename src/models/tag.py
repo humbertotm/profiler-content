@@ -1,5 +1,5 @@
 import attr
-import models.validators as v
+import src.models.validators as v
 
 TAG_FIELDS = (
     'tag',

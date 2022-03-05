@@ -1,6 +1,9 @@
+# Std lib dependencies
 import os, logging
-from utils.logger import LOG_FORMAT
-from db.db_connector import DBConnector
+
+# Private deps
+from src.utils.logger import LOG_FORMAT
+from src.db.db_connector import DBConnector
 
 DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')

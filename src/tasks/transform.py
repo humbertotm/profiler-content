@@ -1,8 +1,14 @@
-import os, io, zipfile, attr, csv, logging
-from models.submission import Submission, SUBMISSION_FIELDS
-from models.tag import Tag, TAG_FIELDS
-from models.number import Number, NUMBER_FIELDS
-from utils.logger import LOG_FORMAT
+# Std lib
+import os, io, zipfile, csv, logging
+
+# deps
+import attr
+
+# Private deps
+from src.models.submission import Submission, SUBMISSION_FIELDS
+from src.models.tag import Tag, TAG_FIELDS
+from src.models.number import Number, NUMBER_FIELDS
+from src.utils.logger import LOG_FORMAT
 
 DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
@@ -61,6 +67,7 @@ def transform(year, period, periodicity):
                 with open(os.path.join(src_path, filename), newline='', encoding='iso-8859-1') as src_tsv:
                     reader = csv.DictReader(src_tsv, delimiter='\t', quoting=csv.QUOTE_NONE)
                     for row in reader:
+                        print(f"row: {row}")
                         [s.encode('utf-8') for s in row]
                         try:
                             total_lines_count += 1
