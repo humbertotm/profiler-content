@@ -71,17 +71,17 @@ def load_tmp_data(year, q):
     for filename in os.listdir(src_path):
         data_type, file_type = filename.split('.')
 
-        if data_type in DATA_OF_INTEREST and file_type == 'csv':
+        if data_type in DATA_OF_INTEREST and file_type == 'tsv':
             tmp_table = TABLE_MAPPINGS['tmp'][data_type]
             qrtr = 'q%s' % q
-            src_csv_file_path = os.path.join(DATA_DIR, str(year), qrtr, filename)
-            load_from_csv_query = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER" % tmp_table
+            src_tsv_file_path = os.path.join(DATA_DIR, str(year), qrtr, filename)
+            load_from_tsv_query = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER" % tmp_table
 
-            logging.debug('Load cmd: %s', load_from_csv_query)
+            logging.debug('Load cmd: %s', load_from_tsv_query)
 
             cur = db_conn.cursor()
-            with open(src_csv_file_path, 'r') as f:
-                cur.copy_expert(sql=load_from_csv_query, file=f)
+            with open(src_tsv_file_path, 'r') as f:
+                cur.copy_expert(sql=load_from_tsv_query, file=f)
                 db_conn.commit()
                 cur.close()
 

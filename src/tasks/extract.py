@@ -2,23 +2,21 @@ import requests, zipfile, os, io, sys, logging
 from utils.logger import LOG_FORMAT
 
 DEST_DIR = os.environ['APP_PATH'] + '/tmp'
-SRC_URL = 'https://www.sec.gov/files/dera/data/financial-statement-data-sets'
-SRC_URL_2020Q1 = 'https://www.sec.gov/files/node/add/data_distribution'
+SRC_URL = 'https://www.sec.gov/files/dera/data/financial-statement-and-notes-data-sets'
 MAX_RETRIES = 5
 
 logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
-def extract(year, q):
-    logging.info('Attempting download for %sq%s', str(year), str(q))
+def extract(year, period, periodicity):
+    logging.info(f"Attempting download for year {year}, period {period}, {periodicity}")
     retries = 0
-    filename = str(year) + 'q' + str(q) + '.zip'
-    dest_path = os.path.join(DEST_DIR, str(year), ('q' + str(q)), filename)
-    if year == 2020 and q == 1:
-        src_url = os.path.join(SRC_URL_2020Q1, filename)
+    if periodicity == "QUARTER":
+        filename = f"{year}q{period}_notes.zip"
     else:
-        src_url = os.path.join(SRC_URL, filename)
-        
-    
+        filename = f"{year}_{period}_notes.zip"
+    dest_path = os.path.join(DEST_DIR, str(year), f"p{period}", filename)
+    src_url = os.path.join(SRC_URL, filename)
+
     res = requests.get(src_url)
 
     while not res.ok:

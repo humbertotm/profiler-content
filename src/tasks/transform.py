@@ -1,4 +1,4 @@
-import os, io, zipfile, attr, csv, logging
+import os, io, zipfile, attr, tsv, logging
 from models.submission import Submission, SUBMISSION_FIELDS
 from models.tag import Tag, TAG_FIELDS
 from models.number import Number, NUMBER_FIELDS
@@ -21,10 +21,15 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 # For this step, the following is done:
 # 1. Extract contents of all zipfiles.
-# 2. Extract contents and validate them before writing them to an output csv file.
-def transform(year, q):
-    zipfile_name = str(year) + 'q' + str(q) + '.zip'
-    src_zip_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)), zipfile_name)
+# 2. Extract contents and validate them before writing them to an output tsv file.
+def transform(year, period, periodicity):
+    if periodicity == "QUARTER":
+        zipfile_name = f"{year}q{period}_notes.zip"
+    else:
+        zipfile_name = f"{year}_{period}_notes.zip"
+
+    src_zip_path = os.path.join(DATA_DIR, str(year), f"p{period}", zipfile_name)
+    # dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
     dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
 
     # TODO: add a check to see if zipfile exists beforehand. Return otherwise.
@@ -41,18 +46,18 @@ def transform(year, q):
         data_type = filename.split('.')[0]
 
         if data_type in DATA_OF_INTEREST:
-            output_csv_path = os.path.join(src_path, (data_type + '.csv'))
+            output_tsv_path = os.path.join(src_path, (data_type + '.tsv'))
                     
-            with open(output_csv_path, 'w+') as output_csv:
+            with open(output_tsv_path, 'w+') as output_tsv:
                 fieldnames = FIELDS[data_type]
-                writer = csv.DictWriter(output_csv, fieldnames=fieldnames)
+                writer = tsv.DictWriter(output_tsv, fieldnames=fieldnames)
                 src_file = os.path.join(src_path, filename)
 
                 writer.writeheader()
                 
                 logging.info('Validating contents in %s', src_file)
-                with open(os.path.join(src_path, filename), newline='', encoding='iso-8859-1') as src_csv:
-                    reader = csv.DictReader(src_csv, delimiter='\t', quoting=csv.QUOTE_NONE)
+                with open(os.path.join(src_path, filename), newline='', encoding='iso-8859-1') as src_tsv:
+                    reader = tsv.DictReader(src_tsv, delimiter='\t', quoting=tsv.QUOTE_NONE)
                     for row in reader:
                         [s.encode('utf-8') for s in row]
                         try:
