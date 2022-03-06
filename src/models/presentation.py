@@ -9,6 +9,7 @@ PRESENTATION_FIELDS = (
     'rfile',
     'tag',
     'version',
+    'prole',
     'plabel',
     'negating'
 )
@@ -23,5 +24,7 @@ class Presentation(object):
     rfile = attr.ib(validator=[])
     tag = attr.ib(validator=[])
     version = attr.ib(validator=[])
+    prole = attr.ib(validator=[])
     plabel = attr.ib(validator=[])
+    negating = attr.ib(validator=[])
 

@@ -51,6 +51,12 @@ def float_or_none(value):
         return None
     else:
         return float(value)
+
+def int_or_none(value):
+    if not value:
+        return None
+    else:
+        return int(value)
     
 def convert_to_date(value):
     return datetime.strptime(value, TIME_FORMATS['date'])

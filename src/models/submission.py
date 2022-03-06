@@ -38,7 +38,11 @@ SUBMISSION_FIELDS = (
     'detail',
     'instance',
     'nciks',
-    'aciks'
+    'aciks',
+    'pubfloatusd',
+    'floatdate',
+    'floataxis',
+    'floatmems',
 )
 
 @attr.s
@@ -169,6 +173,22 @@ class Submission(object):
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
     aciks = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    pubfloatusd = attr.ib(
+        converter=v.float_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(float))
+    )
+    floatdate = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    floataxis = attr.ib(
+        converter=v.string_or_none,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
+    floatmems = attr.ib(
         converter=v.string_or_none,
         validator=attr.validators.optional(attr.validators.instance_of(str))
     )
