@@ -80,7 +80,7 @@ CREATE TABLE tags (
 -- Each record represents a line item for each of the statements of each submission.
 -- This stable stores the values for each item in each submitted report.
 CREATE TABLE numbers (
-  adsh varchar(20) REFERENCES submissions (adsh),
+  adsh varchar(20),
   tag varchar(256),
   version varchar(20),
   ddate date,	-- yyyymmdd => Tested
@@ -96,14 +96,13 @@ CREATE TABLE numbers (
   durp numeric(32, 4),
   datp numeric(32, 4),
   dcml numeric(32, 4),
-  UNIQUE(adsh, tag, version, ddate, coreg, qtrs, uom),
-  FOREIGN KEY (tag, version) REFERENCES tags (tag, version)
+  UNIQUE(adsh, tag, version, ddate, coreg, qtrs, uom)
 );
 
 -- Each record represents the text, tag and order assigned to each line
 -- item in a statement.
 CREATE TABLE presentations (
-  adsh varchar(20) NOT NULL REFERENCES submissions (adsh),
+  adsh varchar(20) NOT NULL,
   report varchar(6) NOT NULL,
   line integer NOT NULL,
   stmt varchar(2) NOT NULL,

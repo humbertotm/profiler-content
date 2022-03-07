@@ -12,25 +12,26 @@ SUBMISSIONS_COPY_QUERY = (
     "INSERT INTO submissions SELECT * FROM submissions_tmp ON CONFLICT DO NOTHING"
 )
 TAGS_COPY_QUERY = "INSERT INTO tags SELECT * FROM tags_tmp ON CONFLICT DO NOTHING"
-NUMBERS_COPY_QUERY = """INSERT INTO numbers (adsh, tag, version, coreg, ddate, qtrs, uom, value, footnote)
-SELECT adsh, tag, version, coreg, ddate, qtrs, uom, value, footnote
-FROM
-(
-	SELECT
-	nt.adsh,
-	nt.tag,
-	nt.version,
-	nt.coreg,
-	nt.ddate,
-	nt.qtrs,
-	nt.uom,
-	nt.value,
-	nt.footnote FROM numbers_tmp nt
-	INNER JOIN submissions s ON nt.adsh = s.adsh
-	INNER JOIN tags t ON nt.tag = t.tag
-	AND nt.version = t.version
-) AS src
-ON CONFLICT DO NOTHING;"""
+NUMBERS_COPY_QUERY = "INSERT INTO numbers SELECT * FROM numbers_tmp ON CONFLICT DO NOTHING"
+# NUMBERS_COPY_QUERY = """INSERT INTO numbers (adsh, tag, version, coreg, ddate, qtrs, uom, value, footnote)
+# SELECT adsh, tag, version, coreg, ddate, qtrs, uom, value, footnote
+# FROM
+# (
+# 	SELECT
+# 	nt.adsh,
+# 	nt.tag,
+# 	nt.version,
+# 	nt.coreg,
+# 	nt.ddate,
+# 	nt.qtrs,
+# 	nt.uom,
+# 	nt.value,
+# 	nt.footnote FROM numbers_tmp nt
+# 	INNER JOIN submissions s ON nt.adsh = s.adsh
+# 	INNER JOIN tags t ON nt.tag = t.tag
+# 	AND nt.version = t.version
+# ) AS src
+# ON CONFLICT DO NOTHING;"""
 COPY_QUERIES = {
     "sub": SUBMISSIONS_COPY_QUERY,
     "tag": TAGS_COPY_QUERY,
