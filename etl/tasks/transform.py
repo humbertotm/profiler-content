@@ -5,10 +5,10 @@ import os, io, zipfile, csv, logging
 import attr
 
 # Private deps
-from src.models.submission import Submission, SUBMISSION_FIELDS
-from src.models.tag import Tag, TAG_FIELDS
-from src.models.number import Number, NUMBER_FIELDS
-from src.utils.logger import LOG_FORMAT
+from models.submission import Submission, SUBMISSION_FIELDS
+from models.tag import Tag, TAG_FIELDS
+from models.number import Number, NUMBER_FIELDS
+from utils.logger import LOG_FORMAT
 
 DATA_DIR = os.environ['APP_PATH'] + '/tmp'
 DATA_OF_INTEREST = ('sub', 'tag', 'num')
@@ -67,7 +67,6 @@ def transform(year, period, periodicity):
                 with open(os.path.join(src_path, filename), newline='', encoding='iso-8859-1') as src_tsv:
                     reader = csv.DictReader(src_tsv, delimiter='\t', quoting=csv.QUOTE_NONE)
                     for row in reader:
-                        print(f"row: {row}")
                         [s.encode('utf-8') for s in row]
                         try:
                             total_lines_count += 1
@@ -77,10 +76,10 @@ def transform(year, period, periodicity):
                             faulty_lines_count += 1
                             next
 
-        fault_pct = faulty_line_pct(faulty_lines_count, total_lines_count)
-        logging.warning(
-            f"{faulty_lines_count} faulty {data_type} records ({fault_pct}%) for {year} period {period}, {periodicity}"
-        )
+            fault_pct = faulty_line_pct(faulty_lines_count, total_lines_count)
+            logging.warning(
+                f"{faulty_lines_count} faulty {data_type} records ({fault_pct}%) for {year} period {period}, {periodicity}"
+            )
                     
 def faulty_line_pct(faulty_lines, total_lines):
     if total_lines == 0:

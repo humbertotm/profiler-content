@@ -86,16 +86,16 @@ CREATE TABLE numbers (
   ddate date,	-- yyyymmdd => Tested
   qtrs integer,
   uom varchar(20),
-  dimh varchar(32) NOT NULL,
-  iprx integer NOT NULL,
+  dimh varchar(56),
+  iprx integer,
   value numeric(32, 4),
   footnote text,
   footlen integer,
-  dimn integer NOT NULL,
+  dimn integer,
   coreg varchar(256),
-  durp numeric(32, 4) NOT NULL,
-  datp numeric(32, 4) NOT NULL,
-  dcml numeric(32, 4) NOT NULL,
+  durp numeric(32, 4),
+  datp numeric(32, 4),
+  dcml numeric(32, 4),
   UNIQUE(adsh, tag, version, ddate, coreg, qtrs, uom),
   FOREIGN KEY (tag, version) REFERENCES tags (tag, version)
 );
@@ -182,7 +182,7 @@ CREATE TABLE numbers_tmp (
   ddate date,	-- yyyymmdd => Tested
   qtrs integer,
   uom varchar(20),
-  dimh varchar(32),
+  dimh varchar(56),
   iprx integer,
   value numeric(32, 4),
   footnote text,
@@ -207,4 +207,3 @@ CREATE TABLE presentations_tmp (
   plabel varchar(512),
   negating boolean
 );
-

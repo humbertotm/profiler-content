@@ -5,7 +5,7 @@ import zipfile, os, io, sys, logging
 import requests
 
 # Private deps
-from src.utils.logger import LOG_FORMAT
+from utils.logger import LOG_FORMAT
 
 DEST_DIR = os.environ['APP_PATH'] + '/tmp'
 SRC_URL = 'https://www.sec.gov/files/dera/data/financial-statement-and-notes-data-sets'

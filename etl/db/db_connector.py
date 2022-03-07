@@ -8,11 +8,11 @@ class DBConnector():
     def __new__(cls):
         if DBConnector.__instance is None:
             config_file = open(CONFIG_PATH, 'r')
-            config_data = yaml.load(config_file)
+            config_data = yaml.load(config_file, Loader=yaml.Loader)
             db_host = config_data['db']['host']
             db_port = config_data['db']['port']
-            target_db = config_data['db']['db_name']
-            db_username = config_data['db']['username']
+            target_db = config_data['db']['name']
+            db_username = config_data['db']['user']
             db_user_pwd = config_data['db']['password']
 
             DBConnector.__instance = psycopg2.connect(host=db_host, port=db_port, dbname=target_db, user=db_username, password=db_user_pwd)

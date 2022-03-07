@@ -65,7 +65,7 @@ def main():
         args.start_year, args.start_period, args.end_year, args.end_period
     )
 
-    Initialize db connection
+    # Initialize db connection
     DBConnector()
     
     for period in periods:
@@ -77,7 +77,7 @@ def main():
         load()
         clean(year, period)
 
-    Terminate db connection
+    # Terminate db connection
     DBConnector.disconnect()
 
 if __name__ == '__main__':
