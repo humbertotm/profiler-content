@@ -47,11 +47,11 @@ $ docker exec -it python-etl /bin/bash
 ```
 3. For full range of years execution
 ```shell
-python ./src/etl.py
+python ./etl/etl.py
 ```
 4. For select range of years execution
 ```shell
-python ./src/etl.py START_YEAR=2012 END_YEAR=2015
+python ./etl/etl.py START_YEAR=2012 END_YEAR=2015
 ```
 
 ## TODOS
