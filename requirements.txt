@@ -7,3 +7,4 @@ requests
 urllib3
 psycopg2
 ipython
+black

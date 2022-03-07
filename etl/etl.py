@@ -31,14 +31,22 @@ def generate_periods_sequence(start_year, start_period, end_year, end_period):
             periods_list = [1, 2, 3, 10, 11, 12]
 
             if start_period == 1:
-                slice_index = len(periods_list) if not last_loop else periods_list.index(end_period) + 1
+                slice_index = (
+                    len(periods_list)
+                    if not last_loop
+                    else periods_list.index(end_period) + 1
+                )
                 for period in periods_list[:slice_index]:
                     periodicity = "QUARTER" if period <= 4 else "MONTH"
                     first_loop = False if first_loop else False
                     periods.append((year, period, periodicity))
             else:
                 # This is where I left
-                slice_index = len(periods_list) if not last_loop else periods_list.index(end_period) + 1
+                slice_index = (
+                    len(periods_list)
+                    if not last_loop
+                    else periods_list.index(end_period) + 1
+                )
                 index = periods_list.index(start_period)
                 for period in periods_list[index:slice_index]:
                     periodicity = "QUARTER" if period <= 4 else "MONTH"
@@ -52,6 +60,7 @@ def generate_periods_sequence(start_year, start_period, end_year, end_period):
                 periods.append((year, mo, periodicity))
 
     return periods
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -67,7 +76,7 @@ def main():
 
     # Initialize db connection
     DBConnector()
-    
+
     for period in periods:
         year, period, periodicity = period
 
@@ -80,6 +89,6 @@ def main():
     # Terminate db connection
     DBConnector.disconnect()
 
-if __name__ == '__main__':
-    main()
 
+if __name__ == "__main__":
+    main()

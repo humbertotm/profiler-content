@@ -1,18 +1,19 @@
 import attr
 
 PRESENTATION_FIELDS = (
-    'adsh',
-    'report',
-    'line',
-    'stmt',
-    'inpth',
-    'rfile',
-    'tag',
-    'version',
-    'prole',
-    'plabel',
-    'negating'
+    "adsh",
+    "report",
+    "line",
+    "stmt",
+    "inpth",
+    "rfile",
+    "tag",
+    "version",
+    "prole",
+    "plabel",
+    "negating",
 )
+
 
 @attr.s
 class Presentation(object):
@@ -27,4 +28,3 @@ class Presentation(object):
     prole = attr.ib(validator=[])
     plabel = attr.ib(validator=[])
     negating = attr.ib(validator=[])
-
