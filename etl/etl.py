@@ -1,5 +1,4 @@
 import argparse, os
-from utils.logger import LOG_FORMAT
 from tasks.extract import extract
 from tasks.transform import transform
 from tasks.load import load_tmp_data, load
