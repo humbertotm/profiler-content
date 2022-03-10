@@ -5,6 +5,7 @@ __pycache__/
 pyvenv.cfg
 share/
 tmp/
+.log
 lib64
 config.yml
 bookmark.txt

@@ -2,10 +2,10 @@
 import os, logging
 
 # Private deps
-from utils.logger import LOG_FORMAT
-from db.db_connector import DBConnector
+from ..utils.logger import LOG_FORMAT
+from ..db.db_connector import DBConnector
 
-DATA_DIR = os.environ["APP_PATH"] + "/tmp"
+DATA_DIR = os.getcwd() + "/tmp"
 DATA_OF_INTEREST = ("sub", "tag", "num")
 TABLE_MAPPINGS = {"sub": "submissions_tmp", "tag": "tags_tmp", "num": "numbers_tmp"}
 

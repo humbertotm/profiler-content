@@ -1,6 +1,6 @@
 import os, psycopg2, yaml
 
-CONFIG_PATH = os.environ["APP_PATH"] + "/config/config.yml"
+CONFIG_PATH = os.getcwd() + "/config/config.yml"
 
 
 class DBConnector:
