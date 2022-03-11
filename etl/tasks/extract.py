@@ -5,9 +5,9 @@ import zipfile, os, io, sys, logging
 import requests
 
 # Private deps
-from utils.logger import LOG_FORMAT
+from ..utils.logger import LOG_FORMAT
 
-DEST_DIR = os.environ["APP_PATH"] + "/tmp"
+DEST_DIR = os.getcwd() + "/tmp"
 SRC_URL = "https://www.sec.gov/files/dera/data/financial-statement-and-notes-data-sets"
 MAX_RETRIES = 5
 
@@ -20,7 +20,8 @@ def extract(year, period, periodicity):
     if periodicity == "QUARTER":
         filename = f"{year}q{period}_notes.zip"
     else:
-        filename = f"{year}_{period}_notes.zip"
+        period_string = f"{period}" if period > 9 else f"0{period}"
+        filename = f"{year}_{period_string}_notes.zip"
     dest_path = os.path.join(DEST_DIR, str(year), f"p{period}", filename)
     src_url = os.path.join(SRC_URL, filename)
 

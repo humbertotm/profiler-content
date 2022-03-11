@@ -1,9 +1,9 @@
 import argparse, os
-from tasks.extract import extract
-from tasks.transform import transform
-from tasks.load import load_tmp_data, load
-from tasks.clean import clean
-from db.db_connector import DBConnector
+from .tasks.extract import extract
+from .tasks.transform import transform
+from .tasks.load import load_tmp_data, load
+from .tasks.clean import clean
+from .db.db_connector import DBConnector
 
 
 def generate_periods_sequence(start_year, start_period, end_year, end_period):
@@ -61,7 +61,7 @@ def generate_periods_sequence(start_year, start_period, end_year, end_period):
     return periods
 
 
-def main():
+def run():
     parser = argparse.ArgumentParser()
     parser.add_argument("-sy", "--start_year", type=int, required=True)
     parser.add_argument("-ey", "--end_year", type=int, required=True)
@@ -87,7 +87,3 @@ def main():
 
     # Terminate db connection
     DBConnector.disconnect()
-
-
-if __name__ == "__main__":
-    main()

@@ -1,6 +1,6 @@
 import attr
 from datetime import datetime
-import models.validators as v
+from . import validators as v
 
 SUBMISSION_FIELDS = (
     "adsh",

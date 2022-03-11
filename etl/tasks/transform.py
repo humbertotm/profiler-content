@@ -5,12 +5,12 @@ import os, io, zipfile, csv, logging
 import attr
 
 # Private deps
-from models.submission import Submission, SUBMISSION_FIELDS
-from models.tag import Tag, TAG_FIELDS
-from models.number import Number, NUMBER_FIELDS
-from utils.logger import LOG_FORMAT
+from ..models.submission import Submission, SUBMISSION_FIELDS
+from ..models.tag import Tag, TAG_FIELDS
+from ..models.number import Number, NUMBER_FIELDS
+from ..utils.logger import LOG_FORMAT
 
-DATA_DIR = os.environ["APP_PATH"] + "/tmp"
+DATA_DIR = os.getcwd() + "/tmp"
 DATA_OF_INTEREST = ("sub", "tag", "num")
 INSTANTIATORS = {"sub": Submission, "tag": Tag, "num": Number}
 FIELDS = {"sub": SUBMISSION_FIELDS, "tag": TAG_FIELDS, "num": NUMBER_FIELDS}
@@ -24,7 +24,8 @@ def transform(year, period, periodicity):
     if periodicity == "QUARTER":
         zipfile_name = f"{year}q{period}_notes.zip"
     else:
-        zipfile_name = f"{year}_{period}_notes.zip"
+        period_string = f"{period}" if period > 9 else f"0{period}"
+        zipfile_name = f"{year}_{period_string}_notes.zip"
 
     src_zip_path = os.path.join(DATA_DIR, str(year), f"p{period}", zipfile_name)
     # dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
