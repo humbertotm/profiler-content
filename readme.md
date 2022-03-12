@@ -45,14 +45,11 @@ $ docker-compose up -d
 ```shell
 $ docker exec -it python-etl /bin/bash
 ```
-3. For full range of years execution
+3. For execution, specify the range to process
 ```shell
-python ./etl/etl.py
+python -m etl --start_year=2009 --start_period=1 --end_year=2021 --end_period=12
 ```
-4. For select range of years execution
-```shell
-python ./etl/etl.py START_YEAR=2012 END_YEAR=2015
-```
+
 
 ## TODOS
   * Handle failure to download data gracefully. Currently, when there's a failure to download data from the SEC's website, the ETL process is aborted. File system and database cleanups are not carried out.

@@ -2,8 +2,8 @@
 import os, logging
 
 # Private deps
-from ..utils.logger import LOG_FORMAT
-from ..db.db_connector import DBConnector
+from etl.utils.logger import LOG_FORMAT
+from etl.db.db_connector import DBConnector
 
 DATA_DIR = os.getcwd() + "/tmp"
 DATA_OF_INTEREST = ("sub", "tag", "num")
