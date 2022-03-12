@@ -5,10 +5,10 @@ import os, io, zipfile, csv, logging
 import attr
 
 # Private deps
-from ..models.submission import Submission, SUBMISSION_FIELDS
-from ..models.tag import Tag, TAG_FIELDS
-from ..models.number import Number, NUMBER_FIELDS
-from ..utils.logger import LOG_FORMAT
+from etl.models.submission import Submission, SUBMISSION_FIELDS
+from etl.models.tag import Tag, TAG_FIELDS
+from etl.models.number import Number, NUMBER_FIELDS
+from etl.utils.logger import LOG_FORMAT
 
 DATA_DIR = os.getcwd() + "/tmp"
 DATA_OF_INTEREST = ("sub", "tag", "num")
