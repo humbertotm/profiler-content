@@ -43,7 +43,7 @@ def load():
 # This task will load the previously created data csv into tmp tables.
 # Afterwards, data will be copied from tmp tables into final ones.
 def load_tmp_data(year, period):
-    src_path = os.path.join(DATA_DIR, str(year), f"p{period}")
+    src_path = os.path.join(DATA_DIR, str(year), f"q{period}")
 
     # TODO: return if file does not exist
     db_conn = DBConnector()
@@ -54,7 +54,7 @@ def load_tmp_data(year, period):
         if data_type in DATA_OF_INTEREST and file_type == "csv":
             tmp_table = TABLE_MAPPINGS["tmp"][data_type]
             src_csv_file_path = os.path.join(
-                DATA_DIR, str(year), f"p{period}", filename
+                DATA_DIR, str(year), f"q{period}", filename
             )
             load_from_csv_query = (
                 f"COPY {tmp_table} FROM STDIN DELIMITER ',' CSV HEADER"
