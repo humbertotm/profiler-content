@@ -20,43 +20,12 @@ def generate_periods_sequence(start_year, start_period, end_year, end_period):
     for year in range(start_year, end_year + 1):
         if year == end_year:
             last_loop = True
-        start_period = start_period if first_loop else 1
-        if year < 2020:
-            stop = 5 if not last_loop else end_period + 1
-            for qtr in range(start_period, stop):
-                first_loop = False if first_loop else False
-                periods.append((year, qtr, "QUARTER"))
-        elif year == 2020:
-            periods_list = [1, 2, 3, 10, 11, 12]
 
-            if start_period == 1:
-                slice_index = (
-                    len(periods_list)
-                    if not last_loop
-                    else periods_list.index(end_period) + 1
-                )
-                for period in periods_list[:slice_index]:
-                    periodicity = "QUARTER" if period <= 4 else "MONTH"
-                    first_loop = False if first_loop else False
-                    periods.append((year, period, periodicity))
-            else:
-                # This is where I left
-                slice_index = (
-                    len(periods_list)
-                    if not last_loop
-                    else periods_list.index(end_period) + 1
-                )
-                index = periods_list.index(start_period)
-                for period in periods_list[index:slice_index]:
-                    periodicity = "QUARTER" if period <= 4 else "MONTH"
-                    first_loop = False if first_loop else False
-                    periods.append((year, period, periodicity))
-        else:
-            stop = 13 if not last_loop else end_period + 1
-            for mo in range(start_period, stop):
-                first_loop = False if first_loop else False
-                periodicity = "MONTH"
-                periods.append((year, mo, periodicity))
+        start_period = start_period if first_loop else 1
+        stop = 5 if not last_loop else end_period + 1
+        for qtr in range(start_period, stop):
+            first_loop = False if first_loop else False
+            periods.append((year, qtr, "QUARTER"))
 
     return periods
 

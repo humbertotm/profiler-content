@@ -15,7 +15,7 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 # from SEC's servers
 def clean(year, period):
     # clean data directory
-    data_dir = os.path.join(DATA_DIR, str(year), f"p{period}")
+    data_dir = os.path.join(DATA_DIR, str(year), f"q{period}")
     rm_data_dir_cmd = f"rm -r {data_dir}"
     db_conn = DBConnector()
     cur = db_conn.cursor()

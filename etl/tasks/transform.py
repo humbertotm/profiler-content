@@ -21,24 +21,17 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 # 1. Extract contents of all zipfiles.
 # 2. Extract contents and validate them before writing them to an output tsv file.
 def transform(year, period, periodicity):
-    if periodicity == "QUARTER":
-        zipfile_name = f"{year}q{period}_notes.zip"
-    else:
-        period_string = f"{period}" if period > 9 else f"0{period}"
-        zipfile_name = f"{year}_{period_string}_notes.zip"
+    zipfile_name = f"{year}q{period}.zip"
 
-    src_zip_path = os.path.join(DATA_DIR, str(year), f"p{period}", zipfile_name)
-    # dest_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
-    dest_path = os.path.join(DATA_DIR, str(year), f"p{period}")
+    src_zip_path = os.path.join(DATA_DIR, str(year), f"q{period}", zipfile_name)
+    dest_path = os.path.join(DATA_DIR, str(year), f"q{period}")
 
     # TODO: add a check to see if zipfile exists beforehand. Return otherwise.
-
     logging.info("Extracting %s", src_zip_path)
     with zipfile.ZipFile(src_zip_path, "r") as zf:
         zf.extractall(dest_path)
 
-    # src_path = os.path.join(DATA_DIR, str(year), ('q' + str(q)))
-    src_path = os.path.join(DATA_DIR, str(year), f"p{period}")
+        src_path = os.path.join(DATA_DIR, str(year), f"q{period}")
 
     for filename in os.listdir(src_path):
         faulty_lines_count = 0
@@ -46,7 +39,6 @@ def transform(year, period, periodicity):
         data_type = filename.split(".")[0]
 
         if data_type in DATA_OF_INTEREST:
-            # output_tsv_path = os.path.join(src_path, (data_type + '.tsv'))
             output_csv_path = os.path.join(src_path, f"{data_type}.csv")
 
             with open(output_csv_path, "w+") as output_csv:
@@ -69,7 +61,9 @@ def transform(year, period, periodicity):
                             total_lines_count += 1
                             data_obj = INSTANTIATORS[data_type](**row)
                             writer.writerow(attr.asdict(data_obj))
-                        except ValueError as e:
+                        except ValueError:
+                            if data_type == DATA_OF_INTEREST[0]:
+                                logging.error(f"fault row form type: {row['form']}")
                             faulty_lines_count += 1
                             next
 

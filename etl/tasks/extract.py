@@ -8,7 +8,7 @@ import requests
 from etl.utils.logger import LOG_FORMAT
 
 DEST_DIR = os.getcwd() + "/tmp"
-SRC_URL = "https://www.sec.gov/files/dera/data/financial-statement-and-notes-data-sets"
+SRC_URL = "https://www.sec.gov/files/dera/data/financial-statement-data-sets"
 MAX_RETRIES = 5
 
 logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
@@ -16,13 +16,10 @@ logging.basicConfig(format=LOG_FORMAT, level=logging.DEBUG)
 
 def extract(year, period, periodicity):
     logging.info(f"Attempting download for year {year}, period {period}, {periodicity}")
+
     retries = 0
-    if periodicity == "QUARTER":
-        filename = f"{year}q{period}_notes.zip"
-    else:
-        period_string = f"{period}" if period > 9 else f"0{period}"
-        filename = f"{year}_{period_string}_notes.zip"
-    dest_path = os.path.join(DEST_DIR, str(year), f"p{period}", filename)
+    filename = f"{year}q{period}.zip"
+    dest_path = os.path.join(DEST_DIR, str(year), f"q{period}", filename)
     src_url = os.path.join(SRC_URL, filename)
 
     res = requests.get(src_url)
